@@ -1,4 +1,18 @@
 
+class Tree():
+    def __init__(self,label, children=None) -> None:
+        self.label = label
+        self.children = children or []
+        
+    def __repr__(self):
+        if self.children:
+            return '%s(%s)' % (self.label, ', '.join(map(str, self.children)))
+        else:
+            return self.label
+
+    def __str__(self):
+        return self.__repr__()
+
 
 class CYK():
     def __init__(self, w, rules):
@@ -45,7 +59,22 @@ class CYK():
         for i in range(len(self.table)):
             print(self.w[i], "\t", self.table[i])
                     
-            
+    def CreateTree(self,i, j, key):
+        for rule in self.rules[key]:
+            if len(rule) == 1:
+                if rule[0] == w[i]:
+                    return Tree(key, [Tree(rule[0])])
+            else:
+                B = rule[0]
+                C = rule[1]
+                for k in range(i, j):
+                    if B in self.table[i][k] and C in self.table[k+1][j]:
+                        return Tree(key, [self.CreateTree(i, k, B), self.CreateTree(k+1, j, C)])
+        return None
+    
+    def ShowTree(self,i,j,key):
+        print(self.CreateTree(i,j,key))
+  
 
 
 rules1 = {
@@ -81,8 +110,13 @@ hola2 = CYK(w2, rules2)
 hola.CreateTable()
 hola2.CreateTable()
 
+
+
 hola.PrintTable()
 hola2.PrintTable()
 
+
+hola.ShowTree(0, len(w)-1, "S")
+hola2.ShowTree(0, len(w2)-1, "S")
 
 
