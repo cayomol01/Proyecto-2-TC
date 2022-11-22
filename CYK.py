@@ -21,7 +21,6 @@ class CYK():
         self.rules = rules
         self.table = [[[] for i in range(self.n)] for j in range(self.n)]
 
-    non_terminals = ["S","VP", "PP", "NP", "V","P", "N", "Det"]
 
     
     def CreateTable(self):
@@ -62,12 +61,13 @@ class CYK():
     def CreateTree(self,i, j, key):
         for rule in self.rules[key]:
             if len(rule) == 1:
-                if rule[0] == w[i]:
+                if rule[0] == self.w[i]:
                     return Tree(key, [Tree(rule[0])])
             else:
                 B = rule[0]
                 C = rule[1]
                 for k in range(i, j):
+
                     if B in self.table[i][k] and C in self.table[k+1][j]:
                         return Tree(key, [self.CreateTree(i, k, B), self.CreateTree(k+1, j, C)])
         return None
@@ -84,7 +84,7 @@ rules1 = {
     "NP": [["Det", "N"],["he"], ["she"]],
     "V" : [["cooks"], ["drinks"], ["eats"], ["cuts"]],
     "P" : [["in"], ["with"]],
-    "N": [["cat"], ["dog"],["beer"], ["cake"], ["juice"], ["meat"], ["soup"],["fork"], ["knife"], ["spoon"], ["oven"]],
+    "N":  [["cat"], ["dog"],["beer"], ["cake"], ["juice"], ["meat"], ["soup"],["fork"], ["knife"], ["spoon"], ["oven"]],
     "Det": [["a"], ["the"]]
 	}
 
@@ -107,16 +107,14 @@ w = w.split(" ")
 hola = CYK(w, rules1)
 hola2 = CYK(w2, rules2)
 
-hola.CreateTable()
-hola2.CreateTable()
+h1 = hola.CreateTable()
+h2 = hola2.CreateTable()
 
 
 
 hola.PrintTable()
 hola2.PrintTable()
 
-
-hola.ShowTree(0, len(w)-1, "S")
 hola2.ShowTree(0, len(w2)-1, "S")
 
 
