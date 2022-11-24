@@ -5,7 +5,8 @@ class Tree:
 
     def __repr__(self):
         if self.children:
-            return '%s(%s)' % (self.label, ', '.join(map(str, self.children)))
+
+            return '%s -> (%s)' % (self.label, ', '.join(map(str, self.children)))
         else:
             return self.label
 
@@ -47,7 +48,9 @@ class CYK:
         return self.table
 
     def Accept(self):
-        return "S" in self.table[0][self.n - 1]
+        if ("S" in self.table[0][self.n - 1]):
+            return True
+        return False
 
     def PrintTable(self):
         print("\t", self.w)
@@ -90,7 +93,7 @@ rules2 = {"S": [["A", "B"], ["B", "C"]],
           "C": [["A", "B"], ["a"]],
           }
 
-w = "she eats a cake with a fork"
+w = "she does not eat a cake with a fork"
 w2 = "baaba"
 # (NP), (VP, V), (Det), (N), (P), (Det), (N),
 
@@ -106,3 +109,6 @@ hola.PrintTable()
 hola2.PrintTable()
 
 hola2.ShowTree(0, len(w2) - 1, "S")
+hola.ShowTree(0, len(w) - 1, "S")
+
+hola.Accept()

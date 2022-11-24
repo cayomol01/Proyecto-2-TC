@@ -40,7 +40,7 @@ print_lambda("tres")
 print_lambda("nueve")
 
 print("========Operaciones========")
-print_lambda("sucesor(nueve)")
+print_lambda("sucesor(sucesor(cuatro))")
 print_lambda("suma(dos)(tres)")
 print_lambda("multiplicacion(seis)(cuatro)")
 print_lambda("potencia(cuatro)(tres)")
